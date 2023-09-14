@@ -5,11 +5,25 @@
         <input @keydown.enter="handleInsert" placeholder="할 일 적기" />
         <div v-if="todos.list.length > 0">
             <ul>
-                <li v-for="(todo, index) in todos.list" :key="index">
+                <li
+                    v-for="(todo, index) in todos.list"
+                    :key="index"
+                    style="display: flex; justify-content: space-between"
+                >
                     <input type="checkbox" v-model="todo.checked" />
                     <label
+                        style="width: 100%; margin: auto"
+                        @mouseover="handleHover(index, 'over')"
+                        @mouseout="handleHover(index, 'out')"
                         >{{ todo.text }}
-                        <button @click="handleDelete(index)">X</button>
+                        <button
+                            style="float: right"
+                            v-if="todoHover === index"
+                            :key="index"
+                            @click="handleDelete(index)"
+                        >
+                            X
+                        </button>
                     </label>
                 </li>
             </ul>
@@ -28,6 +42,8 @@
 
 <script setup>
 import { ref, reactive, computed } from "vue";
+
+const todoHover = ref("");
 
 const todos = reactive({
     nav: "all",
@@ -52,6 +68,14 @@ function handleInsert(event) {
             checked: false,
         });
         event.target.value = "";
+    }
+}
+
+function handleHover(index, command) {
+    if (command === "over") {
+        todoHover.value = index;
+    } else if (command === "out") {
+        todoHover.value = null;
     }
 }
 
