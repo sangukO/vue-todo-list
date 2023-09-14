@@ -3,40 +3,36 @@
     <div>
         <input v-model="isAllChecked" type="checkbox" />
         <input @keydown.enter="handleInsert" placeholder="할 일 적기" />
-        <div v-if="todos.list.length > 0">
-            <ul>
-                <li
-                    v-for="(todo, index) in todos.list"
+        <ul v-if="todos.list.length > 0">
+            <li v-for="(todo, index) in todos.list" :key="index">
+                <input type="checkbox" v-model="todo.checked" />
+                <label
+                    @mouseover="handleHover(index, 'over')"
+                    :class="todo.checked === true ? 'line-thought' : ''"
+                    >{{ todo.text }}
+                </label>
+                <button
+                    @mouseout="handleHover(index, 'out')"
+                    v-if="todoHover === index"
                     :key="index"
-                    style="display: flex; justify-content: space-between"
+                    @click="handleDelete(index)"
                 >
-                    <input type="checkbox" v-model="todo.checked" />
-                    <label
-                        style="width: 100%; margin: auto"
-                        @mouseover="handleHover(index, 'over')"
-                        @mouseout="handleHover(index, 'out')"
-                        >{{ todo.text }}
-                        <button
-                            style="float: right"
-                            v-if="todoHover === index"
-                            :key="index"
-                            @click="handleDelete(index)"
-                        >
-                            X
-                        </button>
-                    </label>
-                </li>
-            </ul>
-            <footer class="footer">
-                <span
-                    ><strong>{{ todos.list.length }}</strong> items left</span
-                >
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
-                <button v-if="todos.list" @click="ck">Clear completed</button>
-            </footer>
-        </div>
+                    X
+                </button>
+            </li>
+        </ul>
+        <footer class="footer" v-if="todos.list">
+            <span
+                ><strong>{{
+                    todos.list.filter((item) => item.checked !== true).length
+                }}</strong>
+                items left</span
+            >
+            <button @click="handleState('All')">All</button>
+            <button @click="handleState('Active')">Active</button>
+            <button @click="handleState('Completed')">Completed</button>
+            <button @click="ck">Clear completed</button>
+        </footer>
     </div>
 </template>
 
@@ -44,10 +40,32 @@
 import { ref, reactive, computed } from "vue";
 
 const todoHover = ref("");
+const state = ref("All");
 
 const todos = reactive({
     nav: "all",
-    list: [],
+    list: [
+        {
+            text: "123123",
+            checked: false,
+        },
+        {
+            text: "123123",
+            checked: false,
+        },
+        {
+            text: "123123",
+            checked: false,
+        },
+        {
+            text: "123123",
+            checked: false,
+        },
+        {
+            text: "123123",
+            checked: false,
+        },
+    ],
 });
 
 const isAllChecked = computed({
@@ -83,6 +101,10 @@ function handleDelete(index) {
     todos.list = todos.list.filter((_, i) => i !== index);
 }
 
+function handleState(stateParam) {
+    state.value = stateParam;
+}
+
 function ck() {
     console.log(todos.list);
 }
@@ -90,6 +112,10 @@ function ck() {
 
 <style>
 ul {
-    list-style-type: none;
+    align-items: center;
+}
+.line-thought {
+    text-decoration: line-through;
+    color: lightgray;
 }
 </style>
