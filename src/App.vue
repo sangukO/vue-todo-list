@@ -2,7 +2,11 @@
     <h1>TODO-LIST</h1>
     <div>
         <div class="top">
-            <input v-model="isAllChecked" type="checkbox" />
+            <input
+                :class="todos.list.length ? 'visibility' : 'none-visibility'"
+                v-model="isAllChecked"
+                type="checkbox"
+            />
             <input @keydown.enter="handleInsert" placeholder="할 일 적기" />
         </div>
         <ul v-if="todos.list.length > 0">
@@ -43,28 +47,7 @@ import { ref, reactive, computed } from "vue";
 
 const todos = reactive({
     nav: "All",
-    list: [
-        {
-            text: "123123",
-            checked: false,
-        },
-        {
-            text: "123123",
-            checked: false,
-        },
-        {
-            text: "123123",
-            checked: false,
-        },
-        {
-            text: "123123",
-            checked: false,
-        },
-        {
-            text: "123123",
-            checked: false,
-        },
-    ],
+    list: [],
 });
 
 const isAllChecked = computed({
