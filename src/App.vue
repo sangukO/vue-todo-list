@@ -1,83 +1,33 @@
 <template>
     <h1>TODO-LIST</h1>
     <div>
-        <div class="top">
-            <input
-                :class="todos.list.length ? 'visibility' : 'none-visibility'"
-                v-model="isAllChecked"
-                type="checkbox"
-            />
-            <input @keydown.enter="handleInsert" placeholder="할 일 적기" />
-        </div>
-        <ul v-if="todos.list.length > 0">
-            <li v-for="(todo, index) in checkState" :key="index">
-                <input type="checkbox" v-model="todo.checked" />
-                <label :class="todo.checked ? 'line-thought' : ''"
-                    >{{ todo.text }}
-                </label>
-                <button @click="handleDelete(index)">X</button>
-            </li>
-        </ul>
-        <footer class="footer" v-if="todos.list.length">
-            <span
-                ><strong>{{
-                    todos.list.filter((item) => !item.checked).length
-                }}</strong>
-                items left</span
-            >
-            <button @click="handleState('All')">All</button>
-            <button @click="handleState('Active')">Active</button>
-            <button @click="handleState('Completed')">Completed</button>
-            <button
-                :class="
-                    todos.list.filter((item) => item.checked).length
-                        ? 'visibility'
-                        : 'none-visibility'
-                "
-                @click="handleClear"
-            >
-                Clear completed
-            </button>
-        </footer>
+        <TheHeader @insertTodo="handleInsert" :list="todos.list"></TheHeader>
+
+        <TheList
+            :todos="todos"
+            v-if="todos.list.length > 0"
+            @deleteTodo="handleDelete"
+        ></TheList>
+
+        <TheFooter :todos="todos" @emitState="handleState"></TheFooter>
     </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed } from "vue";
+import { TheHeader, TheList, TheItem, TheFooter } from "./components";
 
 const todos = reactive({
     nav: "All",
     list: [],
 });
 
-const isAllChecked = computed({
-    set: (state) => {
-        for (let i = 0; i < todos.list.length; i++) {
-            todos.list[i].checked = state;
-        }
-    },
-    get: () =>
-        todos.list.length ? todos.list.every((item) => item.checked) : false,
-});
-
-const checkState = computed(() => {
-    if (todos.nav === "All") {
-        return todos.list;
-    } else if (todos.nav === "Active") {
-        return todos.list.filter((item) => item.checked === false);
-    } else if (todos.nav === "Completed") {
-        return todos.list.filter((item) => item.checked === true);
-    }
-});
-
-function handleInsert(event) {
-    const { value } = event.target;
+function handleInsert(value) {
     if (value !== "") {
         todos.list.push({
             text: value,
             checked: false,
         });
-        event.target.value = "";
     }
 }
 
@@ -87,10 +37,6 @@ function handleDelete(index) {
 
 function handleState(stateParam) {
     todos.nav = stateParam;
-}
-
-function handleClear() {
-    todos.list = todos.list.filter((item) => item.checked !== true);
 }
 </script>
 
@@ -123,10 +69,5 @@ label {
 
 .none-visibility {
     visibility: hidden;
-}
-
-.line-thought {
-    text-decoration: line-through;
-    color: lightgray;
 }
 </style>
