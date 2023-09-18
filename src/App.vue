@@ -1,15 +1,12 @@
 <template>
     <h1>TODO-LIST</h1>
     <div>
-        <TheHeader @insertTodo="handleInsert" :list="todos.list"></TheHeader>
+        <TheHeader></TheHeader>
 
-        <TheList
-            :todos="todos"
-            v-if="todos.list.length > 0"
-            @deleteTodo="handleDelete"
-        ></TheList>
+        <!-- <TheList v-if="list.length > 0" @deleteTodo="handleDelete"></TheList> -->
+        <TheList></TheList>
 
-        <TheFooter :todos="todos" @emitState="handleState"></TheFooter>
+        <TheFooter></TheFooter>
     </div>
 </template>
 
@@ -17,27 +14,8 @@
 import { ref, reactive, computed } from "vue";
 import { TheHeader, TheList, TheItem, TheFooter } from "./components";
 
-const todos = reactive({
-    nav: "All",
-    list: [],
-});
-
-function handleInsert(value) {
-    if (value !== "") {
-        todos.list.push({
-            text: value,
-            checked: false,
-        });
-    }
-}
-
-function handleDelete(index) {
-    todos.list = todos.list.filter((_, i) => i !== index);
-}
-
-function handleState(stateParam) {
-    todos.nav = stateParam;
-}
+import { useListStore } from "./stores/index";
+const list = useListStore();
 </script>
 
 <style>

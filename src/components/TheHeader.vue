@@ -3,7 +3,7 @@
         <input
             v-model="isAllChecked"
             type="checkbox"
-            :class="list.length ? 'visibility' : 'none-visibility'"
+            :class="list.list.length ? 'visibility' : 'none-visibility'"
         />
         <input
             v-model="toInsertTodo"
@@ -15,30 +15,23 @@
 
 <script setup>
 import { ref, defineEmits, defineProps, computed } from "vue";
+import { useListStore } from "../stores/index";
 
-const props = defineProps({
-    list: Array,
-});
-
-const emits = defineEmits(["insertTodo"]);
-
+const list = useListStore();
 const toInsertTodo = ref("");
 
 function onEnter() {
-    console.log(props.list.length);
-    emits("insertTodo", toInsertTodo.value);
+    list.insertTodo(toInsertTodo.value);
     toInsertTodo.value = "";
 }
 
 const isAllChecked = computed({
     set: (state) => {
-        console.log(state);
-        for (let i = 0; i < props.list.length; i++) {
-            props.list[i].checked = state;
+        for (let i = 0; i < list.list.length; i++) {
+            list.list[i].checked = state;
         }
     },
-    get: () =>
-        props.list.length ? props.list.every((item) => item.checked) : false,
+    get: () => list.isAllChecked,
 });
 </script>
 

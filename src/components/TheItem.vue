@@ -1,8 +1,8 @@
 <template>
     <li>
-        <input type="checkbox" v-model="item.checked" />
-        <label :class="item.checked ? 'line-thought' : ''"
-            >{{ item.text }}
+        <input type="checkbox" v-model="props.item.checked" />
+        <label :class="props.item.checked ? 'line-thought' : ''"
+            >{{ props.item.text }}
         </label>
         <button @click="ondelete">X</button>
     </li>
@@ -10,16 +10,17 @@
 
 <script setup>
 import { defineProps, defineEmits } from "vue";
+import { useListStore } from "../stores/index";
+
+const list = useListStore();
 
 const props = defineProps({
     item: Object,
     index: Number,
 });
 
-const emits = defineEmits(["deleteTodo"]);
-
 function ondelete() {
-    emits("deleteTodo", props.index);
+    list.deleteTodo(props.index);
 }
 </script>
 

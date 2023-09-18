@@ -1,17 +1,17 @@
 <template>
-    <footer class="footer" v-if="props.todos.list.length">
+    <footer class="footer" v-if="list.list.length">
         <span
             ><strong>{{
-                props.todos.list.filter((item) => !item.checked).length
+                list.list.filter((item) => !item.checked).length
             }}</strong>
             items left</span
         >
-        <button @click="emitState('All')">All</button>
-        <button @click="emitState('Active')">Active</button>
-        <button @click="emitState('Completed')">Completed</button>
+        <button @click="list.modifyState('All')">All</button>
+        <button @click="list.modifyState('Active')">Active</button>
+        <button @click="list.modifyState('Completed')">Completed</button>
         <button
             :class="
-                props.todos.list.filter((item) => item.checked).length
+                list.list.filter((item) => item.checked).length
                     ? 'visibility'
                     : 'none-visibility'
             "
@@ -25,7 +25,8 @@
 <script setup>
 import { defineEmits, defineProps } from "vue";
 
-const emits = defineEmits(["emitState"]);
+import { useListStore } from "../stores/index";
+const list = useListStore();
 
 const props = defineProps({
     todos: {
@@ -34,12 +35,8 @@ const props = defineProps({
     },
 });
 
-function emitState(stateParam) {
-    emits("emitState", stateParam);
-}
-
 function handleClear() {
-    props.todos.list = props.todos.list.filter((item) => item.checked !== true);
+    list.list = list.list.filter((item) => item.checked !== true);
 }
 </script>
 
