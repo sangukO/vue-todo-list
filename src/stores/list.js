@@ -2,13 +2,11 @@ import { defineStore } from "pinia";
 
 export const useListStore = defineStore("listStore", {
     state: () => {
-        return { nav: "All", list: [] };
+        return { currentID: 0, nav: "All", list: [] };
     },
     getters: {
-        isAllChecked: (list) => {
-            list.list.length ? list.list.every((item) => item.checked) : false;
-        },
-
+        isAllChecked: (list) =>
+            list.list.length ? list.list.every((item) => item.checked) : false,
         checkState: (list) => {
             if (list.nav === "All") {
                 return list.list;
@@ -24,18 +22,31 @@ export const useListStore = defineStore("listStore", {
         insertTodo(value) {
             if (value !== "") {
                 this.list.push({
+                    id: this.currentID++,
                     text: value,
                     checked: false,
                 });
             }
         },
 
-        deleteTodo(index) {
-            this.list = this.list.filter((_, i) => i !== index);
+        deleteTodo(id) {
+            this.list = this.list.filter((item) => item.id !== id);
         },
 
         modifyState(state) {
             this.nav = state;
+        },
+
+        checkTodo(id) {
+            this.list = this.list.map((item) =>
+                item.id === id ? { ...item, checked: !item.checked } : item
+            );
+        },
+
+        editTodo(id, text) {
+            this.list = this.list.map((item) =>
+                item.id === id ? { ...item, text: text } : item
+            );
         },
     },
 });

@@ -1,7 +1,14 @@
 <template>
     <li>
-        <input type="checkbox" v-model="props.item.checked" />
-        <label :class="props.item.checked ? 'line-thought' : ''"
+        <input
+            type="checkbox"
+            :checked="props.item.checked"
+            @click="handleCheck"
+        />
+        <label
+            contenteditable="true"
+            :class="props.item.checked ? 'line-thought' : ''"
+            @input="handleEdit"
             >{{ props.item.text }}
         </label>
         <button @click="ondelete">X</button>
@@ -16,11 +23,18 @@ const list = useListStore();
 
 const props = defineProps({
     item: Object,
-    index: Number,
 });
 
 function ondelete() {
-    list.deleteTodo(props.index);
+    list.deleteTodo(props.item.id);
+}
+
+function handleCheck() {
+    list.checkTodo(props.item.id);
+}
+
+function handleEdit(event) {
+    list.editTodo(props.item.id, event.target.innerText);
 }
 </script>
 

@@ -1,12 +1,8 @@
 <template>
     <ul>
         <!-- TheItem.vue -->
-        <TheItem
-            v-for="(item, index) in checkState"
-            :item="item"
-            :index="index"
-            :key="index"
-        ></TheItem>
+        <TheItem v-for="item in checkState" :item="item" :key="item.id">
+        </TheItem>
         <!-- TheItem.vue -->
     </ul>
 </template>
@@ -17,13 +13,6 @@ import { defineEmits, defineProps, computed } from "vue";
 
 import { useListStore } from "../stores/index";
 const list = useListStore();
-
-const props = defineProps({
-    todos: {
-        nav: String,
-        list: Array,
-    },
-});
 
 const checkState = computed(() => list.checkState);
 </script>
