@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, defineProps, computed, watch } from "vue";
+import { ref, computed } from "vue";
 import { useListStore } from "../stores/index";
 
 const list = useListStore();

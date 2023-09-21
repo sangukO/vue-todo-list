@@ -16,8 +16,9 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
-import { useListStore } from "../stores/index";
+import { defineProps, onMounted } from "vue";
+import { useListStore } from "@stores/index";
+import { fetchTodoList } from "@api/todolist";
 
 const list = useListStore();
 

@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps } from "vue";
+import { defineProps } from "vue";
 
 import { useListStore } from "../stores/index";
 const list = useListStore();

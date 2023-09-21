@@ -9,7 +9,7 @@
 
 <script setup>
 import { TheItem } from "./index.js";
-import { defineEmits, defineProps, computed } from "vue";
+import { computed } from "vue";
 
 import { useListStore } from "../stores/index";
 const list = useListStore();

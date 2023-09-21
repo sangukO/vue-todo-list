@@ -11,11 +11,17 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
-import { TheHeader, TheList, TheItem, TheFooter } from "./components";
+import { onMounted } from "vue";
+import { useListStore } from "@stores/index";
+import { fetchTodoList } from "@api/todolist";
+import { TheHeader, TheList, TheItem, TheFooter } from "@components";
 
-import { useListStore } from "./stores/index";
 const list = useListStore();
+
+onMounted(() => {
+    const { data } = fetchTodoList();
+    console.log(data);
+});
 </script>
 
 <style>

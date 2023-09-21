@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 export const useListStore = defineStore("listStore", {
     state: () => {
-        return { currentID: 0, nav: "All", list: [] };
+        return { nav: "All", list: [] };
     },
     getters: {
         isAllChecked: (list) =>
