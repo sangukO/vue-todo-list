@@ -13,8 +13,11 @@ export default [
                         break;
                     case "post":
                         break;
+                    case "put":
+                        break;
+                    case "patch":
+                        break;
                 }
-                console.log(config);
                 return config;
             },
         },

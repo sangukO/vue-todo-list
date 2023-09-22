@@ -1,9 +1,8 @@
 <template>
     <div class="top">
         <input
-            v-model="isAllChecked"
             type="checkbox"
-            :class="list.list.length ? 'visibility' : 'none-visibility'"
+            :class="todoStore.maxId ? 'visibility' : 'none-visibility'"
         />
         <input
             v-model="toInsertTodo"
@@ -15,24 +14,19 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useListStore } from "../stores/index";
+import { useTodoStore } from "@stores/index";
+import { fetchPostTodo } from "@api/todolist";
 
-const list = useListStore();
+const todoStore = useTodoStore();
 const toInsertTodo = ref("");
 
-function onEnter() {
-    list.insertTodo(toInsertTodo.value);
+const maxId = computed(() => todoStore.getMaxId);
+
+async function onEnter() {
+    await fetchPostTodo(toInsertTodo.value);
+    todoStore.insertTodo(maxId.value, toInsertTodo.value);
     toInsertTodo.value = "";
 }
-
-const isAllChecked = computed({
-    set: (state) => {
-        for (let i = 0; i < list.list.length; i++) {
-            list.list[i].checked = state;
-        }
-    },
-    get: () => list.isAllChecked,
-});
 </script>
 
 <style></style>

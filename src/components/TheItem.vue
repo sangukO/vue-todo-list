@@ -1,42 +1,49 @@
 <template>
     <li>
-        <input
-            type="checkbox"
-            :checked="props.item.checked"
-            @click="handleCheck"
-        />
+        <input type="checkbox" :checked="checked" @click="handleCheck" />
         <label
             contenteditable="true"
-            :class="props.item.checked ? 'line-thought' : ''"
+            :class="checked ? 'line-thought' : ''"
             @input="handleEdit"
-            >{{ props.item.text }}
+            >{{ props.todoElement.text }}
         </label>
         <button @click="ondelete">X</button>
     </li>
 </template>
 
 <script setup>
-import { defineProps, onMounted } from "vue";
-import { useListStore } from "@stores/index";
-import { fetchTodoList } from "@api/todolist";
+import { onMounted, ref } from "vue";
+import { fetchReverseTodo, fetchDeleteTodo } from "@api/todolist";
 
-const list = useListStore();
+import { useTodoStore } from "../stores/index";
+
+const todoStore = useTodoStore();
 
 const props = defineProps({
-    item: Object,
+    todoElement: {
+        id: Number,
+        checked: Boolean,
+        text: String,
+    },
 });
 
+const emit = defineEmits(["deleteEmit"]);
+
+const checked = ref(props.todoElement.checked);
+
 function ondelete() {
-    list.deleteTodo(props.item.id);
+    fetchDeleteTodo(props.todoElement.id);
+    todoStore.deleteTodo(props.todoElement.id);
 }
 
 function handleCheck() {
-    list.checkTodo(props.item.id);
+    fetchReverseTodo(props.todoElement.id, checked.value);
+    checked.value = !checked.value;
 }
 
-function handleEdit(event) {
-    list.editTodo(props.item.id, event.target.innerText);
-}
+// function handleEdit(event) {
+//     list.editTodo(props.todoElement.id, event.target.innerText);
+// }
 </script>
 
 <style>

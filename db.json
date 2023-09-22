@@ -2,15 +2,18 @@
     "todos": [
         {
             "id": 1,
-            "todo": "아침 먹기"
+            "checked": false,
+            "text": "아침 먹기"
         },
         {
             "id": 2,
-            "todo": "점심 먹기"
+            "checked": false,
+            "text": "점심 먹기"
         },
         {
             "id": 3,
-            "todo": "저녁 먹기"
+            "checked": false,
+            "text": "저녁 먹기"
         }
     ]
 }

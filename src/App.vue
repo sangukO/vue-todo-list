@@ -6,22 +6,12 @@
         <!-- <TheList v-if="list.length > 0" @deleteTodo="handleDelete"></TheList> -->
         <TheList></TheList>
 
-        <TheFooter></TheFooter>
+        <!-- <TheFooter></TheFooter> -->
     </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
-import { useListStore } from "@stores/index";
-import { fetchTodoList } from "@api/todolist";
 import { TheHeader, TheList, TheItem, TheFooter } from "@components";
-
-const list = useListStore();
-
-onMounted(() => {
-    const { data } = fetchTodoList();
-    console.log(data);
-});
 </script>
 
 <style>

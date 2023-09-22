@@ -25,9 +25,6 @@
 <script setup>
 import { defineProps } from "vue";
 
-import { useListStore } from "../stores/index";
-const list = useListStore();
-
 const props = defineProps({
     todos: {
         nav: String,

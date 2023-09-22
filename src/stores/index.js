@@ -1,3 +1,3 @@
-import { useListStore } from "./list";
+import { useTodoStore } from "./todo";
 
-export { useListStore };
+export { useTodoStore };
