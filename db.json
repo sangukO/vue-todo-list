@@ -1,19 +1,29 @@
 {
-    "todos": [
-        {
-            "id": 1,
-            "checked": false,
-            "text": "아침 먹기"
-        },
-        {
-            "id": 2,
-            "checked": false,
-            "text": "점심 먹기"
-        },
-        {
-            "id": 3,
-            "checked": false,
-            "text": "저녁 먹기"
-        }
-    ]
+  "todos": [
+    {
+      "id": 1,
+      "checked": false,
+      "text": "아침 먹기"
+    },
+    {
+      "id": 2,
+      "checked": false,
+      "text": "점심 먹기"
+    },
+    {
+      "id": 3,
+      "checked": false,
+      "text": "저녁 먹기"
+    },
+    {
+      "checked": true,
+      "text": "슬기 넌 내 거야",
+      "id": 4
+    },
+    {
+      "checked": true,
+      "text": "영원히 함께 하기",
+      "id": 5
+    }
+  ]
 }

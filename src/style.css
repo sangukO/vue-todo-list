@@ -65,3 +65,7 @@ button:focus-visible {
     text-align: center;
     border-top: 1px solid #e6e6e6;
 }
+
+.inputWriteTodo {
+    line-height: 1rem;
+}

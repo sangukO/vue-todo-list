@@ -5,6 +5,7 @@
             :class="todoStore.maxId ? 'visibility' : 'none-visibility'"
         />
         <input
+            class="inputWriteTodo"
             v-model="toInsertTodo"
             @keydown.enter="onEnter"
             placeholder="할 일 적기"
